@@ -4,6 +4,7 @@ use std::io::Write;
 use std::process::exit;
 
 mod taylormaccoll;
+mod busemann;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -21,10 +22,9 @@ fn main() {
             print!("enter the design exit mach number: ");
             io::stdout().flush().unwrap();
             
-            let mut input = String::new();
+            let mut input: String = String::new();
             io::stdin().read_line(&mut input)
                 .expect("failed to read input mach");
-
             let exit_mach: f64 = match input.trim().parse() {
                 Ok(num) => num,
                 Err(_) => {
@@ -32,7 +32,7 @@ fn main() {
                     exit(1);
                 }
             };
-            println!("{}", exit_mach)
+            println!("{}", exit_mach);
         }
         "icfa" => {
             todo!("icfa inlet")

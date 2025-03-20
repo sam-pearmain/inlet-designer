@@ -33,10 +33,6 @@ pub fn streamline(
     velocity_vector: &VelocityVector,
     r: f64 // the radial distance 
 ) -> Result<f64, &'static str> {
-    if !velocity_vector.valid_mach_number() {
-        return Err("invalid mach number");
-    }
-
     let r_derivative: f64 = 
         r * velocity_vector.radial_component / velocity_vector.tangential_component;
 
@@ -51,10 +47,6 @@ pub fn taylor_maccoll(
     // get radial and tangential velocity components
     let u: f64 = velocity_vector.radial_component;
     let v: f64 = velocity_vector.tangential_component;
-    
-    if !velocity_vector.valid_mach_number() {
-        return Err("invalid mach number")
-    }
 
     let u_derivative: f64 = 
         v + ((gamma - 1.0) / 2.0 * u * v) *
@@ -77,13 +69,9 @@ pub fn solve_taylor_maccoll(
     final_theta: f64,
     initial_r: f64,
     gamma: f64,
-    steps: u32,
+    steps: usize,
 ) -> Result<Vec<TaylorMaccollResult>, &'static str> {
     // 4th order runge kutta integration of taylor maccoll equations
-    if !initial_velocity_vector.valid_mach_number() {
-        return Err("invalid mach number");
-    }
-
     // set step size
     let h: f64 = (final_theta - initial_theta) / steps as f64;
     
