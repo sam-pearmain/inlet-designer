@@ -35,10 +35,10 @@ fn main() {
             println!("{}", exit_mach)
         }
         "icfa" => {
-            todo!()
+            todo!("icfa inlet")
         }
         "tb" | "truncated busemann" => {
-            todo!()
+            todo!("truncated busemann inlet")
         }
         _ => {
             eprintln!("unknown inlet type '{}'", inlet_type);
