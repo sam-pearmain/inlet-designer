@@ -5,6 +5,7 @@ use std::process::exit;
 
 mod taylormaccoll;
 mod busemann;
+mod inlet;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -32,7 +33,24 @@ fn main() {
                     exit(1);
                 }
             };
-            println!("{}", exit_mach);
+            print!("enter the design free stream mach number: ");
+            io::stdout().flush().unwrap();
+
+            input.clear();
+
+            io::stdin().read_line(&mut input)
+                .expect("failed to read input");
+            let freestream_mach: f64 = match input.trim().parse() {
+                Ok(num) => num,
+                Err(_) => {
+                    eprintln!("invalid freestream mach number");
+                    exit(1);
+                }
+            };
+            println!("{}, {}", exit_mach, freestream_mach);
+            let busemann: inlet::Inlet = busemann::calc_contour(exit_mach, freestream_mach);
+            busemann.export_csv();
+            busemann.plot("busemann.png");
         }
         "icfa" => {
             todo!("icfa inlet")
