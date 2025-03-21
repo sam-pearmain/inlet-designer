@@ -3,6 +3,8 @@ use std::io;
 use std::io::Write;
 use std::process::exit;
 
+use inlet::Inlet;
+
 mod taylormaccoll;
 mod busemann;
 mod inlet;
@@ -32,16 +34,15 @@ fn main() {
             let mut input = String::new();
             io::stdin().read_line(&mut input)
                 .expect("failed to read input method");
+
             match input.trim().parse().unwrap() {
                 1 => todo!(),
                 2 => todo!(),
                 3 => {
-                    // ask use to input inlet mach number
                     print!("enter the design exit mach number: ");
                     io::stdout().flush().unwrap();
-
                     input.clear();
-                    
+
                     io::stdin().read_line(&mut input)
                         .expect("failed to read input mach");
                     let exit_mach: f64 = match input.trim().parse() {
@@ -51,9 +52,9 @@ fn main() {
                             exit(1);
                         }
                     };
+
                     print!("enter the design free stream mach number: ");
                     io::stdout().flush().unwrap();
-
                     input.clear();
 
                     io::stdin().read_line(&mut input)
@@ -66,11 +67,43 @@ fn main() {
                         }
                     };
                     println!("{}, {}", exit_mach, freestream_mach);
-                    let busemann: inlet::Inlet = busemann::calc_contour(exit_mach, freestream_mach);
+                    let busemann: Inlet = busemann::calc_contour(exit_mach, Some(freestream_mach), None);
                     busemann.export_csv();
                     busemann.plot("busemann.png");
                 }
-                4 => todo!(),
+                4 => {
+                    print!("enter the design exit mach number: ");
+                    io::stdout().flush().unwrap();
+                    input.clear();
+
+                    io::stdin().read_line(&mut input)
+                        .expect("failed to read input mach number");
+                    let exit_mach: f64 = match input.trim().parse() {
+                        Ok(num) => num,
+                        Err(_) => {
+                            eprintln!("invalid exit mach number");
+                            exit(1);
+                        }
+                    };
+
+                    print!("enter the design compression efficiency");
+                    io::stdout().flush().unwrap();
+                    input.clear();
+
+                    io::stdin().read_line(&mut input)
+                        .expect("failed to read line");
+                    let compression_efficiency: f64 = match input.trim().parse() {
+                        Ok(num) => num,
+                        Err(_) => {
+                            eprintln!("invalid compression efficiency");
+                            exit(1);
+                        }
+                    };
+                    println!("{}, {}", exit_mach, compression_efficiency);
+                    let busemann: Inlet = busemann::calc_contour(exit_mach, None, Some(compression_efficiency));
+                    busemann.plot("busemann.png");
+                    busemann.export_csv();
+                },
                 _ => panic!("unknown method for designing busemann inlet, select [1], [2], [3], or [4]")
             }
         }
