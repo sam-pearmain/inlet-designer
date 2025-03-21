@@ -23,10 +23,10 @@ fn main() {
     match inlet_type.as_str() {
         "b" | "busemann" => {
             print!(
-                "please select design methodology:\n
-                 - moc freestream & exit mach [1]\n
-                 - moc exit mach & compression efficiency [2]\n
-                 - taylor maccoll freestream & exit mach [3]\n
+                "please select design methodology:
+                 - moc freestream & exit mach [1]
+                 - moc exit mach & compression efficiency [2]
+                 - taylor maccoll freestream & exit mach [3]
                  - taylor maccoll exit mach & compression efficiency [4]\n: "
             );
             io::stdout().flush().unwrap();
