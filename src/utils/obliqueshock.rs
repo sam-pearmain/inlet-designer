@@ -75,7 +75,7 @@ pub fn calc_shock_angle(upstream_mach: f64, deflection_angle: f64, specific_heat
     let f = |shock_angle: f64| {
         let calculated_deflection_angle = match calc_deflection_angle(upstream_mach, shock_angle, specific_heat_ratio) {
             Ok(value) => value,
-            Err(_) => panic!("erm what"),
+            Err(_) => panic!("something bad happened"),
         };
         return calculated_deflection_angle - deflection_angle
     };
