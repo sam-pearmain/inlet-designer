@@ -6,6 +6,7 @@ use std::process::exit;
 mod taylormaccoll;
 mod busemann;
 mod inlet;
+mod utils;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
