@@ -67,7 +67,7 @@ fn main() {
                         }
                     };
                     println!("{}, {}", exit_mach, freestream_mach);
-                    let busemann: Inlet = busemann::calc_contour(exit_mach, Some(freestream_mach), None);
+                    let busemann: Inlet = busemann::calc_contour(exit_mach);
                     busemann.export_csv();
                     busemann.plot("busemann.png");
                 }
